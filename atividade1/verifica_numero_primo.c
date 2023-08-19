@@ -1,31 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int is_prime(int num) {
-    if (num <= 1) {
-        return 0;
-    }
+int main(int argc, char* argv[]){
+    int num, i;
     
-    for (int i = 2; i <= sqrt(num); i++) {
-        if (num % i == 0) {
-            return 0;
+
+    num = atoi(argv[1]);
+
+    if(num <= 1){
+        printf("0");
+    }else{
+        for(i=3; i < num; i+=2){
+            if(num%i==0){
+                printf("0");
+                break;
+            }
+        }
+        if(i==num){
+            printf("1");
         }
     }
-    
-    return 1;
-}
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Uso: %s <numero>\n", argv[0]);
-        return 1;
-    }
-    int numero = atoi(argv[1]);
-    if (is_prime(numero)) {
-        printf("1 - O numero %d eh primo.\n", numero);
-    } else {
-        printf("0 - O numero %d nao eh primo.\n", numero);
-    }
-    
+
     return 0;
 }
-
