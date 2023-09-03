@@ -1,56 +1,94 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-int main(int argc, char* argv[]){
-    
-    FILE *fp;
+typedef struct {
+    int x;
+    float y;
+} Ponto;
 
-    fp = fopen("teste.txt", "r");
+int contarLinhas(FILE *arquivo) {
+    int contador = 0;
+    char linha[100];
 
-    if(fp == NULL){
-        perror("Nao foi possivel abrir o arquivo");
-        exit(1);
-    }
-    char c;
-    
-    do{
-        c = (char)fgetc(fp);
-        printf("%c", c);
-    } while (c != EOF);    
-
-    fclose(fp);
-
-    FILE *f_bin;
-    f_bin = fopen("bin.dat", "w");
-
-
-    if(f_bin == NULL){
-        perror("Nao foi possivel abrir o bin.dat");
-        exit(1);
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        contador++;
     }
 
-    int i[] = {1, 2};
+    rewind(arquivo); 
+    return contador;
+}
 
-    fwrite (&i, sizeof(int), 2, f_bin);
+int lerPontos(FILE *arquivo, Ponto *pontos, int numPontos) {
+    char linha[100];
+    int i = 0;
 
-    fclose(f_bin);
-
-
-    f_bin = fopen("bin.dat", "r");    
-    if(f_bin == NULL){
-        perror("Nao foi possivel abrir o bin.dat");
-        exit(1);
+    while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+        char *token = strtok(linha, ",");
+        pontos[i].x = atoi(token);
+        token = strtok(NULL, ",");
+        pontos[i].y = atof(token);
+        i++;
     }
 
-    int j;
-    printf("\n");
-    fread(&j, sizeof(int), 1, f_bin);
-    while(!feof(f_bin)){
-        printf("%d\n", j);
-        fread(&j, sizeof(int), 1, f_bin);
+    return i; // Retorna o número de pontos lidos
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        printf("Uso: %s arquivo.csv\n", argv[0]);
+        return 1;
     }
-    fclose(f_bin);
 
+    FILE *arquivo = fopen(argv[1], "r");
 
-    exit(0);
+    if (arquivo == NULL) {
+        printf("N foi possivel abrir o arquivo %s.\n", argv[1]);
+        return 1;
+    }
+
+    int numPontos = contarLinhas(arquivo);
+    Ponto *pontos = (Ponto *)malloc(numPontos * sizeof(Ponto));
+
+    if (pontos == NULL) {
+        printf("Erro de alocacao de memoria.\n");
+        fclose(arquivo);
+        return 1;
+    }
+
+    int numPontosLidos = lerPontos(arquivo, pontos, numPontos);
+    fclose(arquivo);
+
+    if (numPontosLidos != numPontos) {
+        printf("Erro na leitura dos pontos.\n");
+        free(pontos);
+        return 1;
+    }
+
+    int somaX = 0;
+    float somaY = 0.0;
+
+    for (int i = 0; i < numPontos; i++) {
+        somaX += pontos[i].x;
+        somaY += pontos[i].y;
+    }
+
+    float mediaX = (float)somaX / numPontos;
+    float mediaY = somaY / numPontos;
+
+    float somaXY = 0.0;
+    float somaX2 = 0.0;
+
+    for (int i = 0; i < numPontos; i++) {
+        somaXY += (pontos[i].x - mediaX) * (pontos[i].y - mediaY);
+        somaX2 += (pontos[i].x - mediaX) * (pontos[i].x - mediaX);
+    }
+
+    float coeficienteAngular = somaXY / somaX2;
+    float coeficienteLinear = mediaY - coeficienteAngular * mediaX;
+
+    printf("Resultado da equacao da regressao linear: y = %.2fx + %.2f\n", coeficienteAngular, coeficienteLinear);
+
+    free(pontos);
+    return 0;
 }
