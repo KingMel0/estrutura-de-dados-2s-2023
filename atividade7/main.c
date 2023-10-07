@@ -4,39 +4,39 @@
 
 int main() {
 
-    Pilha* desfazerPilha = criarPilha(10);
+    Pilha* Pilha = criarPilha(10);
 
     printf("Adicionando tarefa 1...\n");
-    empilhar(desfazerPilha, 1);
+    empilhar(Pilha, 1);
     printf("Adicionando tarefa 2...\n");
-    empilhar(desfazerPilha, 2);
+    empilhar(Pilha, 2);
 
     printf("Desfazendo acao anterior...\n");
-    int desfeito = desempilhar(desfazerPilha);
+    int desfeito = desempilhar(Pilha);
     if (desfeito != -1) {
         printf("Acao desfeita: %d\n", desfeito);
     } else {
         printf("Sem acoes para desfazer.\n");
     }
 
-    destruirPilha(desfazerPilha);
+    destruirPilha(Pilha);
 
-    Fila* enfileirarTarefa = criarFila(10);
+    Fila* Fila = criarFila(10);
 
     printf("Adicionando tarefa de impressao...\n");
-    enfileirar(enfileirarTarefa, 1);
+    enfileirar(Fila, 1);
     printf("Adicionando tarefa de digitalizacao...\n");
-    enfileirar(enfileirarTarefa, 2);
+    enfileirar(Fila, 2);
 
     printf("Executando a proxima tarefa na fila...\n");
-    int executado = desenfileirar(enfileirarTarefa);
+    int executado = desenfileirar(Fila);
     if (executado != -1) {
         printf("Tarefa finalizada: %d\n", executado);
     } else {
         printf("Sem tarefas na fila.\n");
     }
 
-    destruirFila(enfileirarTarefa);
+    destruirFila(Fila);
 
     return 0;
 }
