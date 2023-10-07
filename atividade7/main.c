@@ -3,7 +3,7 @@
 #include "fila.h"
 
 int main() {
-    // Caso de uso para Pilha (Desfazer)
+
     Pilha* undoStack = criarPilha(10);
 
     printf("Adicionando tarefa 1...\n");
@@ -21,7 +21,6 @@ int main() {
 
     destruirPilha(undoStack);
 
-    // Caso de uso para Fila (Fila de Tarefas)
     Fila* taskQueue = criarFila(10);
 
     printf("Adicionando tarefa de impressao...\n");
@@ -32,7 +31,7 @@ int main() {
     printf("Executando a proxima tarefa na fila...\n");
     int executado = desenfileirar(taskQueue);
     if (executado != -1) {
-        printf("Tarefa executada: %d\n", executado);
+        printf("Tarefa finalizada: %d\n", executado);
     } else {
         printf("Sem tarefas na fila.\n");
     }

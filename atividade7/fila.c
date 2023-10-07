@@ -18,7 +18,7 @@ void destruirFila(Fila* fila) {
 
 int enfileirar(Fila* fila, int elemento) {
     if (filaCheia(fila))
-        return 0; // Fila cheia
+        return 0; 
     if (filaVazia(fila))
         fila->frente = 0;
     fila->tras = (fila->tras + 1) % fila->tamanho;
@@ -28,7 +28,7 @@ int enfileirar(Fila* fila, int elemento) {
 
 int desenfileirar(Fila* fila) {
     if (filaVazia(fila))
-        return -1; // Fila vazia
+        return -1; 
     int elemento = fila->itens[fila->frente];
     if (fila->frente == fila->tras)
         fila->frente = fila->tras = -1;

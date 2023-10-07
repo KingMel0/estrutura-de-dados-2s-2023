@@ -17,7 +17,7 @@ void destruirPilha(Pilha* pilha) {
 
 int empilhar(Pilha* pilha, int elemento) {
     if (pilhaCheia(pilha))
-        return 0; // Pilha cheia
+        return 0; 
     pilha->topo++;
     pilha->itens[pilha->topo] = elemento;
     return 1;
@@ -25,7 +25,7 @@ int empilhar(Pilha* pilha, int elemento) {
 
 int desempilhar(Pilha* pilha) {
     if (pilhaVazia(pilha))
-        return -1; // Pilha vazia
+        return -1; 
     int elemento = pilha->itens[pilha->topo];
     pilha->topo--;
     return elemento;
