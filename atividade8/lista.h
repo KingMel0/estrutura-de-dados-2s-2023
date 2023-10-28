@@ -16,3 +16,5 @@ void lista_imprimir_inversa(No* L);
 void lista_inserir_no_i(No* L, int i, char valor);
 void lista_remover_no_i(No* L, int i);
 void lista_remover_no(No* L, char valor_busca);
+void lista_inverter(No** L);
+void lista_remover_repeticao(No* L);
